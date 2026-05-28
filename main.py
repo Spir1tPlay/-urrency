@@ -2,6 +2,22 @@ import telebot
 import requests
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from cfg import TOKEN
+import threading
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "OK"
+
+def run_flask():
+    app.run(host="0.0.0.0", port=8080)
+
+# Запускаем Flask в отдельном потоке
+thread = threading.Thread(target=run_flask)
+thread.daemon = True
+thread.start()
 
 # Бесплатный API для курсов валют
 RATES_URL = "https://api.exchangerate-api.com/v4/latest/USD"
